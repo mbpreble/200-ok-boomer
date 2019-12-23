@@ -5,7 +5,8 @@ This project shouldn't be taken seriously or in any way as a political statement
 It *only* provides a single function okBoomer which has the signature of Express Middleware 
 `function okBoomer(req, res, next)`
 
-THE *only* thing this middleware function does is overwrite the `statusMessage` property of the current response with `OK Boomer`, and only if the response's `statusCode` property is currently 200.
+This middleware overwrites the `send` method of the request to transmit a `statusMessage` of "OK Boomer" along
+as long as `statusCode` is 200. That's it, that's all it does.
 
 In order to work properly this middleware should be registered before request handlers or anything else which can transmit headers to clients since it replaces `res.send` at the time it is invoked as middleware.
 
@@ -15,7 +16,14 @@ e.g.
 ```
 const express = require('express');
 const okBoomer = require('200-ok-boomer');
-const app = express();
 
+const app = express();
 app.use(okBoomer);
+app.get('/', (req, res) => res.sendStatus(200));
+server = app.listen(5000);
+```
+
+```
+$curl -I localhost:5000
+HTTP/1.1 200 OK Boomer
 ```
