@@ -1,0 +1,27 @@
+{
+  "name": "200-ok-boomer",
+  "version": "1.0.0",
+  "description": "Middleware to convert \"200 OK\" into \"200 OK Boomer\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbpreble/200-ok-boomer.git"
+  },
+  "keywords": [
+    "silly"
+  ],
+  "author": "Matthew Preble",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mbpreble/200-ok-boomer/issues"
+  },
+  "homepage": "https://github.com/mbpreble/200-ok-boomer#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "jest": "^24.9.0",
+    "node-fetch": "^2.6.0"
+  }
+}
