@@ -18,12 +18,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
-      env: 
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         npm ci
         npm run build --if-present
         npm test
-        ./node_modules/.bin/codecov --token=CODECOV_TOKEN
+        ./node_modules/.bin/codecov --token=$CODECOV_TOKEN
       env:
         CI: true
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
