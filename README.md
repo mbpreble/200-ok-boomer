@@ -1,3 +1,6 @@
+![npm](https://img.shields.io/npm/v/200-ok-boomer)
+![Codecov](https://img.shields.io/codecov/c/github/mbpreble/200-ok-boomer)
+
 # 200-ok-boomer
 Middleware to convert "200 OK" into "200 OK Boomer"
 
