@@ -1,2 +1,2 @@
-import { okBoomer } from './ok-boomer';
+import { okBoomer } from './middleware/ok-boomer';
 module.exports = okBoomer;
