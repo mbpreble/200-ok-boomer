@@ -1,9 +1,10 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const okBoomer = require('../index');
+import * as express from 'express';
+import * as http from 'http';
+import fetch from 'node-fetch';
+import { okBoomer } from './ok-boomer';
 
 describe('okBoomer', () => {
-    let server;
+    let server: http.Server;
     afterEach(() => {
         server.close();
     })
