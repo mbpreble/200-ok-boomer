@@ -21,7 +21,7 @@ const express = require('express');
 const okBoomer = require('200-ok-boomer');
 
 const app = express();
-app.use(okBoomer);
+app.use(okBoomer());
 app.get('/', (req, res) => res.sendStatus(200));
 server = app.listen(5000);
 ```
@@ -29,4 +29,14 @@ server = app.listen(5000);
 ```
 $curl -I localhost:5000
 HTTP/1.1 200 OK Boomer
+```
+
+# Telemetry
+As of version 2.0.0, 200-ok-boomer will by default emit simple metrics (a count of 200 OK Boomer responses).
+This will be done by periodically (once per minute) calling a metrics endpoint with an aggregated count.
+
+If this behavior is undesirable, please pass a configuration object specifying "collectMetrics" to be false:
+```
+app.use(okBoomer()); // Will collect and transmit metrics
+app.use(okBoomer({collectMetrics: false})); // Will NOT collect and transmit metrics
 ```
