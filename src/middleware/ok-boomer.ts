@@ -14,25 +14,29 @@ export function okBoomer(config?: Config) {
         collector = new NoopMetricsCollector();
     }
 
-    return (req: Request, res: Response, next: NextFunction) => {
-        /**
-         * A small amount of complexity here, where we need to modify `res.send`
-         * Ensures we intercept a 200 response and set the message correctly
-         */
-        const oldSend = res.send;
-        const modifiedSend =  (data: any) => {
-            if (res.statusCode === 200) {
-                res.statusMessage = 'OK Boomer';
-                collector.increment();
-            }
-    
-            // Use the original send method
-            const result = oldSend.apply(res, [data]);
-            return result;
+    const boomerize = (res: Response) => {
+        if (res.statusCode === 200) {
+            res.statusMessage = 'OK Boomer';
+            collector.increment();
         }
-    
-        res.send = modifiedSend;
-    
+    };
+
+    const modifyResponseMethod = (res: Response, originalMethod: (...args: any[]) => any) => {
+        const modifiedMethod = (...args: any[]) => {
+            boomerize(res);
+            return originalMethod.apply(res, [...args]);
+        };
+
+        return modifiedMethod;
+    }
+
+    return (req: Request, res: Response, next: NextFunction) => {
+        // As soon as we start processing the request, replace ALL known methods we need to intercept
+        ['send', 'end'].forEach((value) => {
+           // @ts-ignore
+            res[value] = modifyResponseMethod(res, res[value]);
+        });
+
         next();
     };
 }
