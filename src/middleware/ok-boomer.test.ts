@@ -18,11 +18,11 @@ describe('okBoomer', () => {
         app.use(okBoomer());
         app.get('/', (req, res) => res.sendStatus(200));
         server = app.listen(5000);
-        
+
         return fetch('http://localhost:5000').then(res => {
             expect(res.statusText).toBe('OK Boomer');
             server.close();
-        })
+        });
     });
 
     it('should not add its message to a response with any other status code', () => {
@@ -30,11 +30,23 @@ describe('okBoomer', () => {
         app.use(okBoomer());
         app.get('/', (req, res) => res.sendStatus(201));
         server = app.listen(5000);
-        
+
         return fetch('http://localhost:5000').then(res => {
             expect(res.statusText).not.toBe('OK Boomer');
             server.close();
-        })
+        });
+    });
+
+    it('should apply to use of `res.end`', () => {
+        const app = express();
+        app.use(okBoomer());
+        app.get('/', (req, res) => res.end());
+        server = app.listen(5000);
+
+        return fetch('http://localhost:5000').then(res => {
+            expect(res.statusText).toBe('OK Boomer');
+            server.close();
+        });
     });
 
     it('should use MetricsCollector with no config', () => {
